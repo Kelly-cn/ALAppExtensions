@@ -220,9 +220,12 @@ table 11733 "Cash Document Line CZP"
                             end;
                         "Account Type"::Employee:
                             begin
-                                CashDocumentHeaderCZP.TestField("Currency Code", '');
                                 Employee.Get("Account No.");
                                 Description := CopyStr(Employee.FullName(), 1, MaxStrLen(Description));
+                                "Posting Group" := Employee."Employee Posting Group";
+                                "Gen. Posting Type" := "Gen. Posting Type"::" ";
+                                "VAT Bus. Posting Group" := '';
+                                "VAT Prod. Posting Group" := '';
                             end;
                     end;
 
@@ -778,6 +781,7 @@ table 11733 "Cash Document Line CZP"
             Editable = false;
             DataClassification = CustomerContent;
         }
+#if not CLEANSCHEMA28
         field(62; "VAT Difference (LCY)"; Decimal)
         {
             Caption = 'VAT Difference (LCY)';
@@ -791,6 +795,7 @@ table 11733 "Cash Document Line CZP"
             ObsoleteTag = '18.0';
 #endif
         }
+#endif
         field(63; "System-Created Entry"; Boolean)
         {
             Caption = 'System-Created Entry';
@@ -1016,19 +1021,6 @@ table 11733 "Cash Document Line CZP"
             Caption = 'Posting Allocation Account No.';
             DataClassification = CustomerContent;
             TableRelation = "Allocation Account";
-        }
-        field(31001; "Advance Letter Link Code"; Code[30])
-        {
-            Caption = 'Advance Letter Link Code';
-            DataClassification = CustomerContent;
-            ObsoleteState = Removed;
-            ObsoleteReason = 'Remove after Advance Payment Localization for Czech will be implemented.';
-            ObsoleteTag = '22.0';
-
-            trigger OnValidate()
-            begin
-                UpdateEETTransaction();
-            end;
         }
     }
 

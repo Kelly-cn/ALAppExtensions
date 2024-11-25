@@ -52,7 +52,7 @@
     },
     {
       "from": 133501,
-      "to": 133502
+      "to": 133506
     }
   ],
   "resourceExposurePolicy": {
@@ -60,6 +60,9 @@
     "allowDownloadingSource": true,
     "includeSourceInSymbolFile": true
   },
-  "application": "25.0.0.0",
-  "target": "OnPrem"
+  "application": "26.0.0.0",
+  "target": "OnPrem",
+  "resourceFolders": [
+    ".resources"
+  ]
 }

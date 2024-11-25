@@ -465,4 +465,69 @@ enum 30111 "Shpfy GraphQL Type" implements "Shpfy IGraphQL"
         Caption = 'Get Transl Resource';
         Implementation = "Shpfy IGraphQL" = "Shpfy GQL TranslResource";
     }
+    value(94; MetafieldSet)
+    {
+        Caption = 'MetfieldSet';
+        Implementation = "Shpfy IGraphQL" = "Shpfy GQL MetafieldsSet";
+    }
+    value(95; ProductMetafieldIds)
+    {
+        Caption = 'Product Metafield Ids';
+        Implementation = "Shpfy IGraphQL" = "Shpfy GQL ProductMetafieldIds";
+    }
+    value(96; VariantMetafieldIds)
+    {
+        Caption = 'Variant Metafield Ids';
+        Implementation = "Shpfy IGraphQL" = "Shpfy GQL VariantMetafieldIds";
+    }
+    value(97; GetProductImage)
+    {
+        Caption = 'Get Product Image';
+        Implementation = "Shpfy IGraphQL" = "Shpfy GQL GetProductImage";
+    }
+    value(103; CustomerMetafieldIds)
+    {
+        Caption = 'Customer Metafield Ids';
+        Implementation = "Shpfy IGraphQL" = "Shpfy GQL CustomerMetafieldIds";
+    }
+    value(104; CompanyMetafieldIds)
+    {
+        Caption = 'Company Metafield Ids';
+        Implementation = "Shpfy IGraphQL" = "Shpfy GQL CompanyMetafieldIds";
+    }
+    value(105; GetDeliveryProfiles)
+    {
+        Caption = 'Get Delivery Profiles';
+        Implementation = "Shpfy IGraphQL" = "Shpfy GQL DeliveryProfiles";
+    }
+    value(106; GetNextDeliveryProfiles)
+    {
+        Caption = 'Get Next Delivery Profiles';
+        Implementation = "Shpfy IGraphQL" = "Shpfy GQL NextDeliveryProfiles";
+    }
+    value(107; GetLocationGroups)
+    {
+        Caption = 'Get Location Groups';
+        Implementation = "Shpfy IGraphQL" = "Shpfy GQL LocationGroups";
+    }
+    value(108; GetDeliveryMethods)
+    {
+        Caption = 'Get Delivery Methods';
+        Implementation = "Shpfy IGraphQL" = "Shpfy GQL DeliveryMethods";
+    }
+    value(109; GetNextDeliveryMethods)
+    {
+        Caption = 'Get Next Delivery Methods';
+        Implementation = "Shpfy IGraphQL" = "Shpfy GQL NextDeliveryMethods";
+    }
+    value(110; GetMetafieldDefinitions)
+    {
+        Caption = 'Get Metafield Definitions';
+        Implementation = "Shpfy IGraphQL" = "Shpfy GQL MetafieldDefinitions";
+    }
+    value(111; InventoryActivate)
+    {
+        Caption = 'Inventory Activate';
+        Implementation = "Shpfy IGraphQL" = "Shpfy GQL InventoryActivate";
+    }
 }

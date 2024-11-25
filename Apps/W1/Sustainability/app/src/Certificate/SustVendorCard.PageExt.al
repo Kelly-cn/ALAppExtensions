@@ -11,12 +11,14 @@ pageextension 6221 "Sust. Vendor Card" extends "Vendor Card"
             field("Sust. Cert. No."; Rec."Sust. Cert. No.")
             {
                 ApplicationArea = Basic, Suite;
-                ToolTip = 'Specifies the Sust. Cert. No. of Vendor';
+                Importance = Additional;
+                ToolTip = 'Specifies the Sustainability Certificate Number of the Vendor.';
             }
             field("Sust. Cert. Name"; Rec."Sust. Cert. Name")
             {
                 ApplicationArea = Basic, Suite;
-                ToolTip = 'Specifies the Sust. Cert. Name of Vendor';
+                Importance = Additional;
+                ToolTip = 'Specifies the Sustainability Certificate Name of the Vendor.';
             }
         }
     }

@@ -34,15 +34,6 @@ codeunit 7276 "SLS Prompts"
         exit(SecretStrSubstNo('%1%2', BCSLSMetaPrompt, AddDateToTaskPrompt(BCSLSTaskPrompt)));
     end;
 
-    internal procedure GetSLSDocumentLookupPrompt(): SecretText
-    var
-        BCSLSDocumentLookupPrompt: SecretText;
-    begin
-        GetAzureKeyVaultSecret(BCSLSDocumentLookupPrompt, 'BCSLSDocumentLookupPrompt');
-
-        exit(BCSLSDocumentLookupPrompt);
-    end;
-
     internal procedure GetSLSSearchItemsWithFiltersPrompt(): SecretText
     var
         BCSLSSearchItemsWithFiltersPrompt: SecretText;
@@ -50,15 +41,6 @@ codeunit 7276 "SLS Prompts"
         GetAzureKeyVaultSecret(BCSLSSearchItemsWithFiltersPrompt, 'BCSLSSearchItemsWithFiltersPrompt');
 
         exit(BCSLSSearchItemsWithFiltersPrompt);
-    end;
-
-    internal procedure GetSLSSearchItemPrompt(): SecretText
-    var
-        BCSLSSearchItemPrompt: SecretText;
-    begin
-        GetAzureKeyVaultSecret(BCSLSSearchItemPrompt, 'BCSLSSearchItemPrompt');
-
-        exit(BCSLSSearchItemPrompt);
     end;
 
     internal procedure GetSLSMagicFunctionPrompt(): SecretText
@@ -90,18 +72,7 @@ codeunit 7276 "SLS Prompts"
         exit(BCSLSParseCsvPrompt);
     end;
 
-    [NonDebuggable]
-    internal procedure GetParsingCsvTemplateUserInputPrompt(): Text
-    var
-        BCSLSParseCsvTemplateUserInputPrompt: SecretText;
-    begin
-        GetAzureKeyVaultSecret(BCSLSParseCsvTemplateUserInputPrompt, 'BCSLSParseCsvTemplateUserInputPrompt');
-
-        exit(BCSLSParseCsvTemplateUserInputPrompt.Unwrap());
-    end;
-
-    [NonDebuggable]
-    internal procedure GetProductFromCsvTemplateUserInputPrompt(): Text
+    internal procedure GetProductFromCsvTemplateUserInputPrompt(): SecretText
     var
         BCSLSGetProductFromCsvTemplateUserInputPrompt: SecretText;
     begin

@@ -1107,13 +1107,13 @@ codeunit 148155 "Contracts Test"
 
             if RecalculatePrice then begin //if currency code is changed to '', amounts and amonts in lcy in service commitments should be the same
                 ServiceCommitment.TestField(Price,
-                CurrExchRate.ExchangeAmtLCYToFCY(CurrencyFactorDate, Customer."Currency Code", ServiceCommitment."Price (LCY)", CurrencyFactor));
+                Round(CurrExchRate.ExchangeAmtLCYToFCY(CurrencyFactorDate, Customer."Currency Code", ServiceCommitment."Price (LCY)", CurrencyFactor), Currency."Unit-Amount Rounding Precision"));
 
                 ServiceCommitment.TestField("Service Amount",
-                CurrExchRate.ExchangeAmtLCYToFCY(CurrencyFactorDate, Customer."Currency Code", ServiceCommitment."Service Amount (LCY)", CurrencyFactor));
+                Round(CurrExchRate.ExchangeAmtLCYToFCY(CurrencyFactorDate, Customer."Currency Code", ServiceCommitment."Service Amount (LCY)", CurrencyFactor), Currency."Amount Rounding Precision"));
 
                 ServiceCommitment.TestField("Discount Amount",
-                CurrExchRate.ExchangeAmtLCYToFCY(CurrencyFactorDate, Customer."Currency Code", ServiceCommitment."Discount Amount (LCY)", CurrencyFactor));
+                Round(CurrExchRate.ExchangeAmtLCYToFCY(CurrencyFactorDate, Customer."Currency Code", ServiceCommitment."Discount Amount (LCY)", CurrencyFactor), Currency."Amount Rounding Precision"));
             end
             else begin
                 ServiceCommitment.TestField(Price, ServiceCommitment."Price (LCY)");
@@ -1187,8 +1187,8 @@ codeunit 148155 "Contracts Test"
     local procedure GetTotalServiceAmountFromServiceCommitments(): Decimal
     begin
         ServiceCommitment.SetRange("Service Object No.", ServiceObject."No.", ServiceObject1."No.");
-        ServiceCommitment.CalcSums("Service Amount");
-        exit(ServiceCommitment."Service Amount");
+        ServiceCommitment.FindFirst();
+        exit(Round(ServiceCommitment.Price * ServiceObject1."Quantity Decimal" * 2, Currency."Amount Rounding Precision"));
     end;
 
     local procedure CreateAndPostBillingProposal(BillingDate: Date)
@@ -1277,10 +1277,10 @@ codeunit 148155 "Contracts Test"
 
     local procedure CheckIfClosedServiceCommitmentsAreInvoiced(var SourceServiceCommitment: Record "Service Commitment")
     begin
+        SourceServiceCommitment.SetRange(Closed, true);
         if SourceServiceCommitment.FindSet() then
             repeat
-                if ContractTestLibrary.ServiceCommitmentIsClosed(SourceServiceCommitment) then
-                    SourceServiceCommitment.TestField("Next Billing Date", CalcDate('<+1D>', SourceServiceCommitment."Service End Date"));
+                SourceServiceCommitment.TestField("Next Billing Date", CalcDate('<+1D>', SourceServiceCommitment."Service End Date"));
             until SourceServiceCommitment.Next() = 0;
     end;
 
@@ -1564,6 +1564,8 @@ codeunit 148155 "Contracts Test"
         BillingBasePeriodArray: Array[4] of Text;
         ExpectedResultArray: Array[4] of Decimal;
         AmountArray: Array[4] of Decimal;
+        RoundedExpectedResult: Decimal;
+        RoundedResult: Decimal;
         i: Integer;
     begin
         //[SCENARIO]: Try to create Contract Analysis Entry and test the values
@@ -1597,14 +1599,20 @@ codeunit 148155 "Contracts Test"
         Report.Run(Report::"Create Contract Analysis");
 
         //THEN
+        Currency.InitRoundingPrecision();
         ContractAnalysisEntry.SetRange("Service Object No.", ServiceObject."No.");
         AssertThat.RecordIsNotEmpty(ContractAnalysisEntry);
-        if ContractAnalysisEntry.FindFirst() then
-            for i := 1 to 4 do begin
-                ContractAnalysisEntry.TestField("Monthly Recurr. Revenue (LCY)", ExpectedResultArray[i] * (CalcDate('<CM>', ContractAnalysisEntry."Analysis Date") - CalcDate('<-CM>', ContractAnalysisEntry."Analysis Date")));
-                ContractAnalysisEntry.TestField("Monthly Recurring Cost (LCY)", ExpectedResultArray[i] * (CalcDate('<CM>', ContractAnalysisEntry."Analysis Date") - CalcDate('<-CM>', ContractAnalysisEntry."Analysis Date")));
-                ContractAnalysisEntry.Next();
-            end;
+        ContractAnalysisEntry.FindFirst();
+        for i := 1 to 4 do begin
+            RoundedResult := Round(ContractAnalysisEntry."Monthly Recurr. Revenue (LCY)", Currency."Amount Rounding Precision");
+            RoundedExpectedResult := Round(ExpectedResultArray[i] * (CalcDate('<CM>', ContractAnalysisEntry."Analysis Date") - CalcDate('<-CM>', ContractAnalysisEntry."Analysis Date")), Currency."Amount Rounding Precision");
+            AssertThat.AreEqual(RoundedExpectedResult, RoundedResult, 'Monthly Recurr. Revenue (LCY) was not calculated correctly');
+
+            RoundedResult := Round(ContractAnalysisEntry."Monthly Recurring Cost (LCY)", Currency."Amount Rounding Precision");
+            RoundedExpectedResult := Round(ExpectedResultArray[i] * (CalcDate('<CM>', ContractAnalysisEntry."Analysis Date") - CalcDate('<-CM>', ContractAnalysisEntry."Analysis Date")), Currency."Amount Rounding Precision");
+            AssertThat.AreEqual(RoundedExpectedResult, RoundedResult, 'Monthly Recurring Cost (LCY) was not calculated correctly');
+            ContractAnalysisEntry.Next();
+        end;
         // Test Vendor Service Commitment in Contract Analysis Entry
         ContractAnalysisEntry.TestField("Monthly Recurr. Revenue (LCY)", 0);
         ContractAnalysisEntry.TestField("Monthly Recurring Cost (LCY)", ExpectedResultArray[i] * (CalcDate('<CM>', ContractAnalysisEntry."Analysis Date") - CalcDate('<-CM>', ContractAnalysisEntry."Analysis Date")));
