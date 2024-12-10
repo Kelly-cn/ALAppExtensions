@@ -84,7 +84,6 @@ table 30115 "Shpfy Log Entry"
             Caption = 'Has Error';
             DataClassification = SystemMetadata;
         }
-#if not CLEANSCHEMA28
         field(13; "Request Id"; Guid)
         {
             Caption = 'Request Id';
@@ -98,7 +97,6 @@ table 30115 "Shpfy Log Entry"
             ObsoleteTag = '28.0';
 #endif
         }
-#endif
         field(14; "Request Preview"; Text[50])
         {
             Caption = 'Request Preview';

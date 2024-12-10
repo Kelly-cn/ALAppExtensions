@@ -299,8 +299,7 @@ page 14604 "IS Core App Setup Wizard"
         ISCoreAppSetup.Enabled := true;
         ISCoreAppSetup.Modify();
 
-        if not UpgradeTag.HasUpgradeTag(EnableISCoreApp.GetISCoreAppUpdateTag()) then
-            UpgradeTag.SetUpgradeTag(EnableISCoreApp.GetISCoreAppUpdateTag());
+        UpgradeTag.SetUpgradeTag(EnableISCoreApp.GetISCoreAppUpdateTag());
         CurrPage.Close();
     end;
 

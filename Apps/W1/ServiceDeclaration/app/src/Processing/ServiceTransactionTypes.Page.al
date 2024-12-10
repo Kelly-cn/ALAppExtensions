@@ -32,5 +32,16 @@ page 5011 "Service Transaction Types"
     }
 
     var
+#if not CLEAN23
+        SetupMode: Boolean;
+#endif        
+
+#if not CLEAN23
+    [Obsolete('This function is not used anymore', '23.0')]
+    procedure SetSetupMode()
+    begin
+        SetupMode := true;
+    end;
+#endif    
 }
 

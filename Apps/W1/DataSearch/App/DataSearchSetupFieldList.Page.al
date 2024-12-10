@@ -56,7 +56,7 @@ page 2684 "Data Search Setup (Field) List"
                 field(OptimizeForTextSearch; Rec.OptimizeForTextSearch)
                 {
                     ApplicationArea = Basic, Suite;
-                    Caption = 'Optimized for text search';
+                    Caption = 'Optimized For Text Search';
                     Editable = false;
                     ToolTip = 'Specifies whether this field is optimized for text search. If this field is optimized for text search, the search can be faster.';
                 }

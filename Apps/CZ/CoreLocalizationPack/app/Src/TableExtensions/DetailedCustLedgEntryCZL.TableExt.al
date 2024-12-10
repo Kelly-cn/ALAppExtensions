@@ -1,5 +1,4 @@
-﻿#if not CLEANSCHEMA25
-// ------------------------------------------------------------------------------------------------
+﻿// ------------------------------------------------------------------------------------------------
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 // ------------------------------------------------------------------------------------------------
@@ -31,4 +30,3 @@ tableextension 11785 "Detailed Cust. Ledg. Entry CZL" extends "Detailed Cust. Le
         }
     }
 }
-#endif

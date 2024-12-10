@@ -1,5 +1,6 @@
 namespace Microsoft.Sustainability.RoleCenters;
 
+using Microsoft.API.V1;
 using Microsoft.CostAccounting.Allocation;
 using Microsoft.Finance.Currency;
 using Microsoft.Finance.Dimension;
@@ -309,14 +310,14 @@ page 6235 "Sustainability Manager RC"
             action("SustAccountCategories")
             {
                 ApplicationArea = Basic, Suite;
-                RunObject = Page "Sustain. Account Categories";
+                RunObject = Page "Sust. Account Categories";
                 Caption = 'Sust. Account Categories';
                 ToolTip = 'Executes the Sust. Account Categories action.';
             }
             action("SustAccSubcategory")
             {
                 ApplicationArea = Basic, Suite;
-                RunObject = Page "Sustain. Account Subcategories";
+                RunObject = Page "Sust. Acc. Subcategory";
                 Caption = 'Sust. Acc. Subcategory';
                 ToolTip = 'Executes the Sust. Acc. Subcategory action.';
             }

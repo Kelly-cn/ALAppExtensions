@@ -96,6 +96,7 @@ codeunit 139610 SendRemittanceAdvice
             exit;
         LibraryTestInitialize.OnBeforeTestSuiteInitialize(Codeunit::SendRemittanceAdvice);
         LibraryAzureKVMockMgmt.InitMockAzureKeyvaultSecretProvider();
+        LibraryAzureKVMockMgmt.EnsureSecretNameIsAllowed('SmtpSetup');
         IsInitialized := true;
         LibraryTestInitialize.OnAfterTestSuiteInitialize(Codeunit::SendRemittanceAdvice);
     end;

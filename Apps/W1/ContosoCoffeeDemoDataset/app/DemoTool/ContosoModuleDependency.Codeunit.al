@@ -22,7 +22,7 @@ codeunit 5138 "Contoso Module Dependency"
             Error(CircularDependencyErr, Name, DependsOn);
 
         DemoDataFeatureDependency.Validate(Name, Name);
-        DemoDataFeatureDependency.DependsOn := DependsOn;
+        DemoDataFeatureDependency.Validate(DependsOn, DependsOn);
         DemoDataFeatureDependency.Insert(true);
     end;
 

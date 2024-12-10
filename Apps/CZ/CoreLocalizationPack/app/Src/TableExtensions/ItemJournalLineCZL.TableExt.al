@@ -11,7 +11,6 @@ tableextension 11709 "Item Journal Line CZL" extends "Item Journal Line"
 {
     fields
     {
-#if not CLEANSCHEMA25
         field(31050; "Tariff No. CZL"; Code[20])
         {
             Caption = 'Tariff No.';
@@ -79,7 +78,6 @@ tableextension 11709 "Item Journal Line CZL" extends "Item Journal Line"
             ObsoleteTag = '25.0';
             ObsoleteReason = 'Intrastat related functionalities are moved to Intrastat extensions. This field is not used any more.';
         }
-#endif
         field(31079; "Invt. Movement Template CZL"; Code[10])
         {
             Caption = 'Inventory Movement Template';

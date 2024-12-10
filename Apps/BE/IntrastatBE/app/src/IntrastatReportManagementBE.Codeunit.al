@@ -349,7 +349,11 @@ codeunit 11346 IntrastatReportManagementBE
     local procedure IsIntrastatExport(DataExchDefCode: Code[20]): Boolean
     var
         IntrastatReportSetup: Record "Intrastat Report Setup";
+        IntrastatReportMgt: Codeunit IntrastatReportManagement;
     begin
+        if not IntrastatReportMgt.IsFeatureEnabled() then
+            exit(false);
+
         if not IntrastatReportSetup.Get() then
             exit(false);
 

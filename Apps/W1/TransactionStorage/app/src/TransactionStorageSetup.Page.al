@@ -25,7 +25,6 @@ page 6200 "Transaction Storage Setup"
                 {
                     ApplicationArea = Basic, Suite;
                     ToolTip = 'Specifies the maximum number of hours for the scheduled task to be executed. The specified value must not be less than 3 hours.';
-                    Visible = false;
                 }
             }
         }

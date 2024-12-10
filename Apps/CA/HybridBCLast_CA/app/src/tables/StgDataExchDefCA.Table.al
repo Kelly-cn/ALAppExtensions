@@ -1,4 +1,3 @@
-#if not CLEANSCHEMA24
 table 4046 "Stg Data Exch Def CA"
 {
     ReplicateData = false;
@@ -27,4 +26,3 @@ table 4046 "Stg Data Exch Def CA"
         }
     }
 }
-#endif

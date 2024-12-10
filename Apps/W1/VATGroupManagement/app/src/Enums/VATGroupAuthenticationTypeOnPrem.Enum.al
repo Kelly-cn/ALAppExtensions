@@ -12,9 +12,7 @@ enum 4700 "VAT Group Authentication Type OnPrem"
 #pragma warning restore
 {
     ObsoleteReason = 'Replaced by "VAT Group Auth Type OnPrem" as the name exceeds 30 characters.';
-#pragma warning disable AS0074
-    ObsoleteTag = '25.0';
-#pragma warning restore AS0074
+    ObsoleteTag = '22.0';
     ObsoleteState = Pending;
 
     value(0; WebServiceAccessKey)

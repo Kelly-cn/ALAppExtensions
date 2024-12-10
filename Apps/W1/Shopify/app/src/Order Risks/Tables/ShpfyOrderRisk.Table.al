@@ -35,7 +35,6 @@ table 30123 "Shpfy Order Risk"
             DataClassification = SystemMetadata;
             Editable = false;
         }
-#if not CLEANSCHEMA28
         field(5; Display; Boolean)
         {
             Caption = 'Display';
@@ -49,8 +48,8 @@ table 30123 "Shpfy Order Risk"
             ObsoleteState = Removed;
             ObsoleteTag = '28.0';
 #endif
+
         }
-#endif
         field(6; Provider; Text[512])
         {
             Caption = 'Provider';

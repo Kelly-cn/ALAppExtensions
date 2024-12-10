@@ -50,11 +50,7 @@ codeunit 30195 "Shpfy Inventory API"
 
             StockCalculationFactory(StockCalculation, ShopLocation."Stock Calculation");
             SalesUOM := Item."Sales Unit of Measure";
-
-            if StockCalculation is "Shpfy Extended Stock Calculation" then
-                Stock := (StockCalculation as "Shpfy Extended Stock Calculation").GetStock(Item, ShopLocation)
-            else
-                Stock := StockCalculation.GetStock(Item);
+            Stock := StockCalculation.GetStock(Item);
 
             case ShopifyVariant."UoM Option Id" of
                 1:
@@ -226,12 +222,10 @@ codeunit 30195 "Shpfy Inventory API"
         VariantId: BigInteger;
         Stock: Decimal;
         JArray: JsonArray;
-        JQuantities: JsonArray;
         JInventoryItem: JsonObject;
         JNode: JsonObject;
         JProduct: JsonObject;
         JVariant: JsonObject;
-        JQuantity: JsonToken;
         JItem: JsonToken;
         JValue: JsonValue;
         Cursor: Text;
@@ -243,12 +237,10 @@ codeunit 30195 "Shpfy Inventory API"
                 else
                     Clear(Cursor);
                 if JsonHelper.GetJsonObject(JItem.AsObject(), JNode, 'node') then begin
-                    if JsonHelper.GetJsonArray(JNode, JQuantities, 'quantities') then
-                        if JQuantities.Get(0, JQuantity) then
-                            if JsonHelper.GetJsonValue(JQuantity, JValue, 'quantity') then
-                                Stock := JValue.AsInteger()
-                            else
-                                Stock := 0;
+                    if JsonHelper.GetJsonValue(JNode, JValue, 'quantities.quantity') then
+                        Stock := JValue.AsInteger()
+                    else
+                        Stock := 0;
                     InventoryItemId := 0;
                     VariantId := 0;
                     ProductId := 0;

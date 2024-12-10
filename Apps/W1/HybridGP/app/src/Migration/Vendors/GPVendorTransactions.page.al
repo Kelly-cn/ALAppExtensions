@@ -1,16 +1,13 @@
-#if not CLEAN26
 namespace Microsoft.DataMigration.GP;
 
 page 4097 "GP Vendor Transactions"
 {
     Caption = 'GP Vendor Transactions';
+    AdditionalSearchTerms = 'staging';
     PageType = List;
     SourceTable = "GP Vendor Transactions";
     ApplicationArea = All;
-    UsageCategory = None;
-    ObsoleteState = Pending;
-    ObsoleteReason = 'Removing the GP staging table pages because they cause confusion and should not be used.';
-    ObsoleteTag = '26.0';
+    UsageCategory = Lists;
 
     layout
     {
@@ -96,4 +93,4 @@ page 4097 "GP Vendor Transactions"
         }
     }
 }
-#endif
+

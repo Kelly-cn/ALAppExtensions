@@ -49,7 +49,6 @@
                   tabledata "VAT Ctrl. Report Section CZL" = R,
                   tabledata "VAT LCY Correction Buffer CZL" = R,
                   tabledata "VAT Period CZL" = R,
-                  tabledata "VAT Stmt. Report Line Data CZL" = R,
                   tabledata "VAT Statement Attachment CZL" = R,
                   tabledata "VAT Statement Comment Line CZL" = R,
                   tabledata "VIES Declaration Header CZL" = R,

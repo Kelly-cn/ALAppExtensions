@@ -63,7 +63,6 @@ codeunit 5585 "Digital Voucher Feature"
 
     procedure EnforceDigitalVoucherFunctionality() IsEnabled: Boolean
     var
-        Company: Record Company;
         EnvironmentInformation: Codeunit "Environment Information";
         IsHandled: Boolean;
     begin
@@ -72,9 +71,6 @@ codeunit 5585 "Digital Voucher Feature"
             exit(IsEnabled);
         if (not EnvironmentInformation.IsSaaSInfrastructure()) or (EnvironmentInformation.IsSandbox()) then
             exit(false);
-        Company.Get(CompanyName());
-        if Company."Evaluation Company" then
-            exit;
         if EnvironmentInformation.GetApplicationFamily() = DKCountryCodeTxt then
             exit(Today() >= 20240701D);
     end;

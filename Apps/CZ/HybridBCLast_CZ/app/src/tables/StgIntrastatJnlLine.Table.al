@@ -1,4 +1,3 @@
-#if not CLEANSCHEMA24
 table 11716 "Stg Intrastat Jnl. Line"
 {
     Caption = 'Staging Intrastat Jnl. Line';
@@ -167,7 +166,6 @@ table 11716 "Stg Intrastat Jnl. Line"
             Caption = 'Location Code';
             TableRelation = Location;
         }
-#if not CLEANSCHEMA23
         field(31060; "Additional Costs"; Boolean)
         {
             Caption = 'Additional Costs';
@@ -231,13 +229,11 @@ table 11716 "Stg Intrastat Jnl. Line"
             ObsoleteReason = 'Moved to Core Localization Pack for Czech.';
             ObsoleteTag = '23.0';
         }
-#endif
         field(31069; "Shipment Method Code"; Code[10])
         {
             Caption = 'Shipment Method Code';
             TableRelation = "Shipment Method";
         }
-#if not CLEANSCHEMA23        
         field(31070; "Specific Movement"; Code[10])
         {
             Caption = 'Specific Movement';
@@ -281,7 +277,6 @@ table 11716 "Stg Intrastat Jnl. Line"
             ObsoleteReason = 'Moved to Core Localization Pack for Czech.';
             ObsoleteTag = '23.0';
         }
-#endif
     }
 
     keys
@@ -299,7 +294,6 @@ table 11716 "Stg Intrastat Jnl. Line"
         key(Key4; "Internal Ref. No.")
         {
         }
-#if not CLEANSCHEMA23
         key(Key5; Type, "Country/Region Code", "Tariff No.", "Statistic Indication", "Transaction Type", "Shpt. Method Code", "Area", "Transport Method")
         {
             ObsoleteState = Removed;
@@ -312,11 +306,9 @@ table 11716 "Stg Intrastat Jnl. Line"
             ObsoleteReason = 'Field "Statistic Indication" is removed and cannot be used in an active key.';
             ObsoleteTag = '23.0';
         }
-#endif
         key(Key7; "Document No.")
         {
         }
     }
 
 }
-#endif

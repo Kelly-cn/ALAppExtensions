@@ -36,7 +36,7 @@ codeunit 139646 "Shpfy Catalog Prices Test"
         InitPrice := Any.DecimalInRange(2 * InitUnitCost, 4 * InitUnitCost, 1);
         InitDiscountPerc := Any.DecimalInRange(5, 20, 1);
         Item := ProductInitTest.CreateItem(Shop."Item Templ. Code", InitUnitCost, InitPrice);
-#if not CLEAN25
+#if not CLEAN23
         ProductInitTest.CreateSalesPrice(Shop.Code, Item."No.", InitPrice);
         CustomerDiscountGroup := ProductInitTest.CreateSalesLineDiscount(Shop.Code, Item."No.", InitDiscountPerc);
 #else
@@ -91,7 +91,6 @@ codeunit 139646 "Shpfy Catalog Prices Test"
         ProductPriceCalculation: Codeunit "Shpfy Product Price Calc.";
         InitUnitCost: Decimal;
         InitPrice: Decimal;
-#if CLEAN25
         InitDiscountPerc: Decimal;
         UnitCost: Decimal;
         Price: Decimal;
@@ -119,8 +118,7 @@ codeunit 139646 "Shpfy Catalog Prices Test"
         LibraryAssert.AreEqual(InitPrice, Price, 'Initial price should match expected before discount application.');
 
         // [GIVEN] Updating the catalog to apply a universal discount to all customers.
-#if CLEAN25
-        InitDiscountPerc := Any.DecimalInRange(5, 20, 1);
+#if CLEAN23
         ProductInitTest.CreateAllCustomerPriceList(Shop.Code, Item."No.", InitPrice, InitDiscountPerc);
         Catalog."Customer No." := Customer."No.";
         Catalog.Modify();
@@ -144,7 +142,7 @@ codeunit 139646 "Shpfy Catalog Prices Test"
         Catalog: Record "Shpfy Catalog";
         ShopifyCompany: Record "Shpfy Company";
         Item: Record Item;
-#if CLEAN25
+        CustomerDiscountGroup: Record "Customer Discount Group";
         Customer: Record Customer;
         InitializeTest: Codeunit "Shpfy Initialize Test";
         ProductInitTest: Codeunit "Shpfy Product Init Test";
@@ -157,7 +155,6 @@ codeunit 139646 "Shpfy Catalog Prices Test"
         UnitCost: Decimal;
         Price: Decimal;
         ComparePrice: Decimal;
-#if CLEAN25
         CustDiscPerc: Decimal;
     begin
         // [GIVEN] Setting up the test environment: Shop, Catalog, Item, and Customer with specific pricing and discount.
@@ -175,7 +172,7 @@ codeunit 139646 "Shpfy Catalog Prices Test"
         ProductPriceCalculation.CalcPrice(Item, '', '', UnitCost, Price, ComparePrice);
         LibraryAssert.AreEqual(InitUnitCost, UnitCost, 'Verify initial unit cost matches setup.');
         LibraryAssert.AreEqual(InitPrice, Price, 'Verify initial price matches setup before discount.');
-#if CLEAN25
+#if CLEAN23
         // Creating a customer entry, though it is generic as discounts apply to all customers.
         LibrarySales.CreateCustomer(Customer);
         // [GIVEN] Applying customer-specific discounts.
@@ -202,7 +199,7 @@ codeunit 139646 "Shpfy Catalog Prices Test"
         Catalog: Record "Shpfy Catalog";
         ShopifyCompany: Record "Shpfy Company";
         Item: Record Item;
-#if CLEAN25
+        CustomerDiscountGroup: Record "Customer Discount Group";
         Customer: Record Customer;
         InitializeTest: Codeunit "Shpfy Initialize Test";
         ProductInitTest: Codeunit "Shpfy Product Init Test";
@@ -211,7 +208,6 @@ codeunit 139646 "Shpfy Catalog Prices Test"
         ProductPriceCalculation: Codeunit "Shpfy Product Price Calc.";
         InitUnitCost: Decimal;
         InitPrice: Decimal;
-#if CLEAN25
         InitPerc: Decimal;
         CustDiscPerc: Decimal;
         UnitCost: Decimal;
@@ -236,7 +232,7 @@ codeunit 139646 "Shpfy Catalog Prices Test"
         LibraryAssert.AreEqual(InitUnitCost, UnitCost, 'Initial unit cost should match.');
         LibraryAssert.AreEqual(InitPrice, Price, 'Initial price should match before discount.');
 
-#if CLEAN25
+#if CLEAN23
         // Creating a customer entry, though it is generic as discounts apply to all customers.
         LibrarySales.CreateCustomer(Customer);
         // [GIVEN] Applying a universal discount for all customers.
@@ -264,8 +260,6 @@ codeunit 139646 "Shpfy Catalog Prices Test"
         LibrarySales: Codeunit "Library - Sales";
         ShopifyCompany: Record "Shpfy Company";
         Item: Record Item;
-#if CLEAN25
-        Customer: Record Customer;
         CustomerDiscountGroup: Record "Customer Discount Group";
         InitializeTest: Codeunit "Shpfy Initialize Test";
         ProductInitTest: Codeunit "Shpfy Product Init Test";
@@ -274,7 +268,6 @@ codeunit 139646 "Shpfy Catalog Prices Test"
         ProductPriceCalculation: Codeunit "Shpfy Product Price Calc.";
         InitUnitCost: Decimal;
         InitPrice: Decimal;
-#if CLEAN25
         InitDiscountPerc: Decimal;
         UnitCost: Decimal;
         Price: Decimal;
@@ -298,7 +291,7 @@ codeunit 139646 "Shpfy Catalog Prices Test"
         // [THEN] Verifying initial price settings.
         LibraryAssert.AreEqual(InitUnitCost, UnitCost, 'Initial unit cost should match setup.');
         LibraryAssert.AreEqual(InitPrice, Price, 'Initial price should match setup without discounts.');
-#if CLEAN25
+#if CLEAN23
         LibrarySales.CreateCustomer(Customer);
         CustomerDiscountGroup := ProductInitTest.CreatePriceList(Shop.Code, Item."No.", InitPrice, InitDiscountPerc);
         // [GIVEN] Updating catalog with customer-specific discount group details.

@@ -1,4 +1,3 @@
-#if not CLEANSCHEMA25
 namespace Microsoft.DataMigration.GP;
 
 table 40102 "GP POPPOHeader"
@@ -788,4 +787,3 @@ table 40102 "GP POPPOHeader"
         }
     }
 }
-#endif

@@ -37,7 +37,6 @@ table 30134 "Shpfy Payment Method Mapping"
             DataClassification = CustomerContent;
             TableRelation = "Payment Method";
         }
-#if not CLEANSCHEMA28
         field(5; Priority; Integer)
         {
             Caption = 'Priority';
@@ -52,7 +51,6 @@ table 30134 "Shpfy Payment Method Mapping"
             ObsoleteTag = '28.0';
 #endif
         }
-#endif
     }
     keys
     {

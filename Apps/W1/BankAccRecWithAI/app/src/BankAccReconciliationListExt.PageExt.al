@@ -1,6 +1,7 @@
 namespace Microsoft.Bank.Reconciliation;
 
 using System.AI;
+using System.Environment;
 using System.Telemetry;
 
 pageextension 7254 BankAccReconciliationListExt extends "Bank Acc. Reconciliation List"
@@ -30,7 +31,6 @@ pageextension 7254 BankAccReconciliationListExt extends "Bank Acc. Reconciliatio
 #pragma warning restore AL0482
                 ToolTip = 'Match statement lines with the assistance of Copilot';
                 Visible = CopilotActionsVisible;
-                Enabled = CopilotActionsVisible;
 
                 trigger OnAction()
                 var
@@ -56,11 +56,9 @@ pageextension 7254 BankAccReconciliationListExt extends "Bank Acc. Reconciliatio
 
     trigger OnOpenPage()
     var
-        BankRecAIMatchingImpl: Codeunit "Bank Rec. AI Matching Impl.";
-        CopilotCapability: Codeunit "Copilot Capability";
+        EnvironmentInformation: Codeunit "Environment Information";
     begin
-        BankRecAIMatchingImpl.RegisterCapability();
-        CopilotActionsVisible := CopilotCapability.IsCapabilityRegistered(Enum::"Copilot Capability"::"Bank Account Reconciliation");
+        CopilotActionsVisible := EnvironmentInformation.IsSaaSInfrastructure();
     end;
 
     var

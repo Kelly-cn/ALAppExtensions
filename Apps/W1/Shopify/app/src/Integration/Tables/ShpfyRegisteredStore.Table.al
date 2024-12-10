@@ -1,4 +1,3 @@
-#if not CLEANSCHEMA24
 namespace Microsoft.Integration.Shopify;
 
 /// <summary>
@@ -6,7 +5,7 @@ namespace Microsoft.Integration.Shopify;
 /// </summary>
 table 30136 "Shpfy Registered Store"
 {
-    ObsoleteState = Removed;
+    ObsoleteState = removed;
     ObsoleteTag = '24.0';
     ObsoleteReason = 'Use table 30138 "Shpfy Registered Store New" instead';
 
@@ -55,4 +54,3 @@ table 30136 "Shpfy Registered Store"
             exit('');
     end;
 }
-#endif

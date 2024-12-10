@@ -18,7 +18,6 @@ tableextension 11728 "Purch. Rcpt. Header CZL" extends "Purch. Rcpt. Header"
             Caption = 'Tax Registration No.';
             DataClassification = CustomerContent;
         }
-#if not CLEANSCHEMA25
         field(31068; "Physical Transfer CZL"; Boolean)
         {
             Caption = 'Physical Transfer';
@@ -35,7 +34,6 @@ tableextension 11728 "Purch. Rcpt. Header CZL" extends "Purch. Rcpt. Header"
             ObsoleteTag = '25.0';
             ObsoleteReason = 'Intrastat related functionalities are moved to Intrastat extensions. This field is not used any more.';
         }
-#endif
         field(31072; "EU 3-Party Intermed. Role CZL"; Boolean)
         {
             Caption = 'EU 3-Party Intermediate Role';

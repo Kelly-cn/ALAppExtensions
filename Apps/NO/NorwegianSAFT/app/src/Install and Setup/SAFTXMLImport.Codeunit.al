@@ -5,6 +5,9 @@
 namespace Microsoft.Finance.AuditFileExport;
 
 using Microsoft.Finance.VAT.Reporting;
+#if not CLEAN23
+using Microsoft.Finance.VAT.Setup;
+#endif
 using System.Environment;
 using System.IO;
 using System.Utilities;
@@ -80,6 +83,10 @@ codeunit 10671 "SAF-T XML Import"
                 ImportStandardAccountsFromXMLBuffer(TempXMLBuffer, GetMappingTypeBySourceType(SAFTMappingSource."Source Type"));
             SAFTMappingSource."Source Type"::"Income Statement":
                 ImportGroupingCodesFromXMLBuffer(TempXMLBuffer);
+#if not CLEAN23
+            SAFTMappingSource."Source Type"::"Standard Tax Code":
+                ImportStandardVATCodesFromXMLBuffer(TempXMLBuffer);
+#endif
         end;
 
         if SAFTMappingSource."Source Type" = SAFTMappingSource."Source Type"::"Standard Tax Code" then
@@ -96,6 +103,10 @@ codeunit 10671 "SAF-T XML Import"
         SAFTSetup.Get();
         CopyTenantMediaToTempFromMappingSources(TempTenantMedia, SAFTMappingSourceType::"Standard Tax Code", false);
         FillXMLBufferFromMediaResource(TempXMLBuffer, TempTenantMedia);
+#if not CLEAN23
+        ImportStandardVATCodesFromXMLBuffer(TempXMLBuffer);
+        SAFTSetup.Validate("Not Applicable VAT Code", InsertNotApplicableVATCode());
+#endif
         ImportStandardVATReportingCodesFromXMLBuffer(TempXMLBuffer);
         SAFTSetup.Validate("Not Applic. VAT Code", InsertNotApplicableVATReportingCode());
         SAFTSetup.Modify(true);
@@ -110,6 +121,33 @@ codeunit 10671 "SAF-T XML Import"
             CopyTenantMediaToTempFromMappingSources(TempTenantMedia, SAFTMappingRange.GetSAFTMappingSourceTypeByMappingType(), true) and
             CopyTenantMediaToTempFromMappingSources(TempTenantMedia, SAFTMappingSourceType::"Standard Tax Code", true));
     end;
+
+#if not CLEAN23
+    local procedure ImportStandardVATCodesFromXMLBuffer(var TempXMLBuffer: Record "XML Buffer" temporary)
+    var
+        TempChildXMLBuffer: Record "XML Buffer" temporary;
+        VATCode: Record "VAT Code";
+    begin
+        if not TempXMLBuffer.FindNodesByXPath(TempXMLBuffer, '/StandardTaxCodes/TaxCode') then
+            Error(NotPossibleToParseMappingXMLFileErr, SAFTTaxCodeTxt);
+        repeat
+            if not TempXMLBuffer.HasChildNodes() then
+                Error(NotPossibleToParseMappingXMLFileErr, SAFTTaxCodeTxt);
+            TempXMLBuffer.FindChildElements(TempChildXMLBuffer);
+            VATCode.Init();
+            VATCode.Code := CopyStr(TempChildXMLBuffer.Value, 1, MaxStrLen(VATCode.Code));
+            TempChildXMLBuffer.Next();
+            VATCode.Description := copystr(TempChildXMLBuffer.Value, 1, MaxStrLen(VATCode.Description));
+            TempChildXMLBuffer.Next(); // skip eng description
+            TempChildXMLBuffer.Next();
+            If TempChildXMLBuffer.Name = 'TaxRate' then
+                TempChildXMLBuffer.Next();
+            if TempChildXMLBuffer.Name = 'Compensation' then
+                Evaluate(VATCode.Compensation, TempChildXMLBuffer.Value);
+            if VATCode.insert() then;
+        until TempXMLBuffer.Next() = 0;
+    end;
+#endif
 
     local procedure ImportStandardVATReportingCodesFromXMLBuffer(var TempXMLBuffer: Record "XML Buffer" temporary)
     var
@@ -174,6 +212,18 @@ codeunit 10671 "SAF-T XML Import"
         if SAFTMapping.Insert() then;
     end;
 
+#if not CLEAN23
+    local procedure InsertNotApplicableVATCode(): Code[10]
+    var
+        VATCode: Record "VAT Code";
+    begin
+        VATCode.Init();
+        VATCode.Code := NATxt;
+        VATCode.Description := NotApplicableTxt;
+        if not VATCode.Insert() then;
+        exit(VATCode.Code)
+    end;
+#endif
     local procedure InsertNotApplicableVATReportingCode(): Code[20]
     var
         VATReportingCode: Record "VAT Reporting Code";

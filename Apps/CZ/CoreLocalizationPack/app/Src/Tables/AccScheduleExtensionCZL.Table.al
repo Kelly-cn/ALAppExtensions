@@ -97,7 +97,6 @@ table 31092 "Acc. Schedule Extension CZL"
             OptionCaption = ' ,Purchase,Sale';
             OptionMembers = " ",Purchase,Sale;
         }
-#if not CLEANSCHEMA23
         field(17; Prepayment; Option)
         {
             Caption = 'Prepayment';
@@ -108,7 +107,6 @@ table 31092 "Acc. Schedule Extension CZL"
             ObsoleteTag = '23.0';
             ObsoleteReason = 'Replaced by Advance Payments field in Advance Payments Localization for Czech app';
         }
-#endif
         field(18; "Reverse Sign"; Boolean)
         {
             Caption = 'Reverse Sign';

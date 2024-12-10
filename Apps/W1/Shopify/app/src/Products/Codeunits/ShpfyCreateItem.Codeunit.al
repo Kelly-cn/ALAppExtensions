@@ -244,7 +244,6 @@ codeunit 30171 "Shpfy Create Item"
                         ItemNo := CopyStr(Code, 1, MaxStrLen(ItemNo));
                     end;
             end;
-        Clear(Item."Item Category Code");
         CreateItemFromTemplate(Item, CurrentTemplateCode, ItemNo);
         Item.Description := ShopifyProduct.Title;
 
@@ -384,6 +383,7 @@ codeunit 30171 "Shpfy Create Item"
         IsHandled: Boolean;
     begin
         ProductEvents.OnBeforeFindItemTemplate(Shop, ShopifyProduct, ShopifyVariant, Result, IsHandled);
+        if not IsHandled then
         if not IsHandled then begin
             Shop.TestField("Item Templ. Code");
             Result := Shop."Item Templ. Code";

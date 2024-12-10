@@ -19,16 +19,13 @@
       "version": "26.0.0.0"
     }
   ],
-  "features": [
-    "TranslationFile"
-  ],
   "screenshots": [],
   "platform": "26.0.0.0",
   "application": "26.0.0.0",
   "idRanges": [
     {
       "from": 11080,
-      "to": 11385
+      "to": 11085
     }
   ],
   "resourceExposurePolicy": {

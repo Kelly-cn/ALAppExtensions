@@ -519,19 +519,19 @@ codeunit 148107 "SAF-T Data Check Tests"
     var
         SAFTSetup: Record "SAF-T Setup";
     begin
-        LibraryTestInitialize.OnTestInitialize(CODEUNIT::"SAF-T Data Check Tests");
+        LibraryTestInitialize.OnTestInitialize(CODEUNIT::"SAF-T XML Tests");
         LibrarySetupStorage.Restore();
         if IsInitialized then
             exit;
 
-        LibraryTestInitialize.OnBeforeTestSuiteInitialize(CODEUNIT::"SAF-T Data Check Tests");
+        LibraryTestInitialize.OnBeforeTestSuiteInitialize(CODEUNIT::"SAF-T XML Tests");
         SAFTSetup.DeleteAll();
         SAFTSetup.Init();
         SAFTSetup.Insert();
         LibrarySetupStorage.Save(Database::"SAF-T Setup");
         LibrarySetupStorage.Save(Database::"Company Information");
         IsInitialized := true;
-        LibraryTestInitialize.OnAfterTestSuiteInitialize(CODEUNIT::"SAF-T Data Check Tests");
+        LibraryTestInitialize.OnAfterTestSuiteInitialize(CODEUNIT::"SAF-T XML Tests");
     end;
 
     local procedure CreateCustomerWithFullData(var Customer: Record Customer)

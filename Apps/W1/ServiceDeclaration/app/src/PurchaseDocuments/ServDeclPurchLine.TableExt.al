@@ -35,7 +35,7 @@ tableextension 5017 "Serv. Decl. Purch. Line" extends "Purchase Line"
             var
                 PurchHeader: Record "Purchase Header";
             begin
-                PurchHeader := Rec.GetPurchHeader();
+                PurchHeader.Get("Document Type", "Document No.");
                 if "Applicable For Serv. Decl." then
                     PurchHeader.TestField("Applicable For Serv. Decl.");
             end;

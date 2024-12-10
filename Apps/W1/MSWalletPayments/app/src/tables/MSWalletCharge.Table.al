@@ -1,4 +1,3 @@
-#if not CLEANSCHEMA23
 table 1086 "MS - Wallet Charge"
 {
     ObsoleteState = Removed;
@@ -53,4 +52,3 @@ table 1086 "MS - Wallet Charge"
     {
     }
 }
-#endif

@@ -11,7 +11,6 @@ using Microsoft.Inventory.Transfer;
 
 tableextension 11799 "Item Ledger Entry CZL" extends "Item Ledger Entry"
 {
-#if not CLEANSCHEMA25
     fields
     {
         field(31050; "Tariff No. CZL"; Code[20])
@@ -66,7 +65,7 @@ tableextension 11799 "Item Ledger Entry CZL" extends "Item Ledger Entry"
             ObsoleteReason = 'Intrastat related functionalities are moved to Intrastat extensions. This field is not used any more.';
         }
     }
-#endif
+
     procedure SetFilterFromInvtReceiptHeaderCZL(InvtReceiptHeader: Record "Invt. Receipt Header")
     begin
         SetCurrentKey("Document No.");

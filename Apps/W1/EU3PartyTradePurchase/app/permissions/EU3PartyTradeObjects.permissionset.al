@@ -13,5 +13,8 @@ permissionset 4880 "EU3PartyTrade - Objects"
         codeunit "EU3 Party Trade Feature Mgt." = X,
         codeunit "EU3 Purch.-Get Drop Shpt Sbscr" = X,
         codeunit "EU3 Req. Wksh. Subscribers" = X,
+#if not CLEAN23
+        codeunit "EU3 Feature Data Update" = X,
+#endif
         codeunit "EU3 VAT Stat. Subscribers" = X;
 }

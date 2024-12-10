@@ -1,4 +1,3 @@
-#if not CLEAN26
 namespace Microsoft.DataMigration.GP;
 
 page 4095 "GP Item"
@@ -9,10 +8,6 @@ page 4095 "GP Item"
     InsertAllowed = false;
     Caption = 'Item Table';
     PromotedActionCategories = 'Related Entities';
-    UsageCategory = None;
-    ObsoleteState = Pending;
-    ObsoleteReason = 'Removing the GP staging table pages because they cause confusion and should not be used.';
-    ObsoleteTag = '26.0';
 
     layout
     {
@@ -128,4 +123,3 @@ page 4095 "GP Item"
         }
     }
 }
-#endif

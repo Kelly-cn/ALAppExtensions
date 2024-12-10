@@ -79,9 +79,6 @@ codeunit 31072 "User Setup Adv. Management CZL"
 
     [TryFunction]
     procedure CheckItemJournalLine(ItemJournalLine: Record "Item Journal Line")
-    var
-        LocationQtyIncreaseErr: Label 'You have no right to post Location (quantity increase) with Location Code: %1. Check User Setup!', Comment = '%1 = Location Code';
-        LocationQtyDecreaseErr: Label 'You have no right to post Location (quantity decrease) with Location Code: %1. Check User Setup!', Comment = '%1 = Location Code';
     begin
         if not CheckWorkDocDate(ItemJournalLine."Document Date") then
             ItemJournalLine.TestField("Document Date", WorkDate());
@@ -100,34 +97,26 @@ codeunit 31072 "User Setup Adv. Management CZL"
                 ItemJournalLine."Entry Type"::Purchase, ItemJournalLine."Entry Type"::"Positive Adjmt.", ItemJournalLine."Entry Type"::Output:
                     if ItemJournalLine.Quantity > 0 then begin
                         if not CheckLocQuantityIncrease(ItemJournalLine."Location Code") then
-                            Error(ErrorInfo.Create(StrSubstNo(LocationQtyIncreaseErr, ItemJournalLine."Location Code"), true));
+                            ItemJournalLine.FieldError("Location Code")
                     end else
                         if ItemJournalLine.Quantity < 0 then
                             if not CheckLocQuantityDecrease(ItemJournalLine."Location Code") then
-                                Error(ErrorInfo.Create(StrSubstNo(LocationQtyDecreaseErr, ItemJournalLine."Location Code"), true));
+                                ItemJournalLine.FieldError("Location Code");
                 ItemJournalLine."Entry Type"::Sale, ItemJournalLine."Entry Type"::"Negative Adjmt.", ItemJournalLine."Entry Type"::Consumption:
                     if ItemJournalLine.Quantity > 0 then begin
                         if not CheckLocQuantityDecrease(ItemJournalLine."Location Code") then
-                            Error(ErrorInfo.Create(StrSubstNo(LocationQtyDecreaseErr, ItemJournalLine."Location Code"), true));
+                            ItemJournalLine.FieldError("Location Code")
                     end else
                         if ItemJournalLine.Quantity < 0 then
                             if not CheckLocQuantityIncrease(ItemJournalLine."Location Code") then
-                                Error(ErrorInfo.Create(StrSubstNo(LocationQtyIncreaseErr, ItemJournalLine."Location Code"), true));
+                                ItemJournalLine.FieldError("Location Code");
                 ItemJournalLine."Entry Type"::Transfer:
-                    if ItemJournalLine."New Location Code" <> '' then begin
-                        if ItemJournalLine."Location Code" <> '' then
-                            if not CheckLocQuantityDecrease(ItemJournalLine."Location Code") then
-                                Error(ErrorInfo.Create(StrSubstNo(LocationQtyDecreaseErr, ItemJournalLine."Location Code"), true));
+                    begin
+                        if not CheckLocQuantityDecrease(ItemJournalLine."Location Code") then
+                            ItemJournalLine.FieldError("Location Code");
                         if not CheckLocQuantityIncrease(ItemJournalLine."New Location Code") then
-                            Error(ErrorInfo.Create(StrSubstNo(LocationQtyIncreaseErr, ItemJournalLine."Location Code"), true));
-                    end else
-                        if ItemJournalLine.Quantity > 0 then begin
-                            if not CheckLocQuantityDecrease(ItemJournalLine."Location Code") then
-                                Error(ErrorInfo.Create(StrSubstNo(LocationQtyDecreaseErr, ItemJournalLine."Location Code"), true));
-                        end else
-                            if ItemJournalLine.Quantity < 0 then
-                                if not CheckLocQuantityIncrease(ItemJournalLine."Location Code") then
-                                    Error(ErrorInfo.Create(StrSubstNo(LocationQtyIncreaseErr, ItemJournalLine."Location Code"), true));
+                            ItemJournalLine.FieldError("New Location Code");
+                    end;
             end;
 
             if not CheckWhseNetChangeTemplate(ItemJournalLine) then

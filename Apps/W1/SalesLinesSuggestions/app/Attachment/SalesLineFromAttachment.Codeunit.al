@@ -32,7 +32,7 @@ codeunit 7292 "Sales Line From Attachment"
         FileHandler: interface "File Handler";
         FileName: Text;
     begin
-        SalesHeader.TestStatusOpen(true);
+        SalesHeader.TestStatusOpen();
         if not AzureOpenAI.IsEnabled(Enum::"Copilot Capability"::"Sales Lines Suggestions") then
             exit;
 

@@ -4,8 +4,6 @@
 // ------------------------------------------------------------------------------------------------
 namespace Microsoft.Finance.Registration;
 
-using System.RestClient;
-
 codeunit 11754 "Reg. Lookup Ext. Data CZL"
 {
     TableNo = "Registration Log CZL";
@@ -27,27 +25,57 @@ codeunit 11754 "Reg. Lookup Ext. Data CZL"
         Commit();
     end;
 
-    local procedure SendRequest() HttpResponseMessage: Codeunit "Http Response Message"
+    local procedure SendRequest() HttpResponseMessage: HttpResponseMessage
     var
         RegNoServiceConfigCZL: Record "Reg. No. Service Config CZL";
-        RestClient: Codeunit "Rest Client";
+        HttpClient: HttpClient;
         RequestURL: Text;
         RegNoTok: Label '%1/%2', Locked = true, Comment = '%1 = Registration No. service URL, %2 = Registraton No.';
+#if not CLEAN23
+        OldRegNoTok: Label '%1?ico=%2', Locked = true, Comment = '%1 = Registration No. service URL, %2 = Reistraton No.';
+#endif
+        ServiceCallErr: Label 'Web service call failed.';
     begin
+#if not CLEAN23
+        if RegNoServiceConfigCZL.GetRegNoURL() = GetRegistrationNoValidationWebServiceURL() then
+            RequestURL := StrSubstNo(RegNoTok, RegNoServiceConfigCZL.GetRegNoURL(), RegistrationLogCZL."Registration No.")
+        else
+            RequestURL := StrSubstNo(OldRegNoTok, RegNoServiceConfigCZL.GetRegNoURL(), RegistrationLogCZL."Registration No.");
+#else
         RequestURL := StrSubstNo(RegNoTok, RegNoServiceConfigCZL.GetRegNoURL(), RegistrationLogCZL."Registration No.");
-        RestClient.Initialize();
-        HttpResponseMessage := RestClient.Get(RequestURL);
+#endif
+        if not HttpClient.Get(RequestURL, HttpResponseMessage) then
+            Error(ServiceCallErr);
     end;
 
-    local procedure InsertLogEntry(HttpResponseMessage: Codeunit "Http Response Message")
+    local procedure InsertLogEntry(HttpResponseMessage: HttpResponseMessage)
     var
-        ResponseJsonObject: JsonObject;
+        ResponseObject: JsonObject;
+#if not CLEAN23
+        ResponseXmlDoc: XmlDocument;
+#endif
+        HttpResponseText: Text;
+#if not CLEAN23
+        NamespaceTok: Label 'http://wwwinfo.mfcr.cz/ares/xml_doc/schemas/ares/ares_datatypes/v_1.0.3', Locked = true;
+#endif
     begin
-        ResponseJsonObject := HttpResponseMessage.GetContent().AsJson().AsObject();
-        if HttpResponseMessage.GetIsSuccessStatusCode() then
-            RegistrationLogMgtCZL.LogVerification(RegistrationLogCZL, ResponseJsonObject)
-        else
-            RegistrationLogMgtCZL.LogError(RegistrationLogCZL, ResponseJsonObject);
+        HttpResponseMessage.Content().ReadAs(HttpResponseText);
+#if not CLEAN23
+        if ResponseObject.ReadFrom(HttpResponseText) then begin
+#endif            
+            if HttpResponseMessage.IsSuccessStatusCode() then
+                RegistrationLogMgtCZL.LogVerification(RegistrationLogCZL, ResponseObject)
+            else
+                RegistrationLogMgtCZL.LogError(RegistrationLogCZL, ResponseObject);
+#if not CLEAN23
+            exit;
+        end;
+
+        XmlDocument.ReadFrom(HttpResponseText, ResponseXmlDoc);
+#pragma warning disable AL0432
+        RegistrationLogMgtCZL.LogVerification(RegistrationLogCZL, ResponseXmlDoc, NamespaceTok);
+#pragma warning restore AL0432
+#endif
     end;
 
     procedure GetRegistrationNoValidationWebServiceURL(): Text[250]

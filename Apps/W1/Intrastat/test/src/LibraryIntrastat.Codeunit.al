@@ -982,4 +982,10 @@ codeunit 139554 "Library - Intrastat"
         SalesLine.Validate("Purchasing Code", Purchasing.Code);
         SalesLine.Modify(true);
     end;
+
+    [EventSubscriber(ObjectType::Codeunit, Codeunit::IntrastatReportManagement, 'OnAfterCheckFeatureEnabled', '', true, true)]
+    local procedure OnAfterCheckFeatureEnabled(var IsEnabled: Boolean)
+    begin
+        IsEnabled := true;
+    end;
 }

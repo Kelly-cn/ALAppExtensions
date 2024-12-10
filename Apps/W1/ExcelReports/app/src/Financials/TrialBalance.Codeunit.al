@@ -119,7 +119,6 @@ codeunit 4410 "Trial Balance"
 
     local procedure InsertTrialBalanceDataForGLAccountWithFilters(var GLAccount: Record "G/L Account"; var TrialBalanceData: Record "EXR Trial Balance Buffer"; var Dimension1Values: Record "Dimension Value" temporary; var Dimension2Values: Record "Dimension Value" temporary)
     begin
-        Clear(TrialBalanceData);
         GlAccount.CalcFields("Net Change", "Balance at Date", "Additional-Currency Net Change", "Add.-Currency Balance at Date", "Budgeted Amount", "Budget at Date");
         TrialBalanceData."G/L Account No." := GlAccount."No.";
         TrialBalanceData."Dimension 1 Code" := CopyStr(GLAccount.GetFilter("Global Dimension 1 Filter"), 1, MaxStrLen(TrialBalanceData."Dimension 1 Code"));

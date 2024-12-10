@@ -119,7 +119,6 @@ table 10682 "SAF-T Export Header"
             Caption = 'Execution End Date/Time';
             Editable = false;
         }
-#if not CLEANSCHEMA24
         field(20; "SAF-T File"; Blob)
         {
             DataClassification = CustomerContent;
@@ -128,7 +127,6 @@ table 10682 "SAF-T Export Header"
             ObsoleteReason = 'Replaced with the SAF-T Export File table';
             ObsoleteTag = '24.0';
         }
-#endif
         field(30; "Latest Data Check Date/Time"; DateTime)
         {
             DataClassification = CustomerContent;
@@ -191,10 +189,6 @@ table 10682 "SAF-T Export Header"
         field(52; "Total G/L Entry Credit"; Decimal)
         {
             Caption = 'Total G/L Entry Credit';
-        }
-        field(53; "Version"; Enum "SAF-T Version")
-        {
-            Caption = 'Version';
         }
     }
 

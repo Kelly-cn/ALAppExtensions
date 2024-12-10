@@ -9,7 +9,6 @@ table 11752 "VAT Attribute Code CZL"
     Caption = 'VAT Attribute Code';
     DrillDownPageId = "VAT Attribute Codes CZL";
     LookupPageId = "VAT Attribute Codes CZL";
-    DataClassification = CustomerContent;
 
     fields
     {
@@ -18,26 +17,22 @@ table 11752 "VAT Attribute Code CZL"
             Caption = 'VAT Statement Template Name';
             NotBlank = true;
             TableRelation = "VAT Statement Template";
+            DataClassification = CustomerContent;
         }
         field(2; "Code"; Code[20])
         {
             Caption = 'Code';
-            ToolTip = 'Specifies a VAT attribute code.';
+            DataClassification = CustomerContent;
         }
         field(3; Description; Text[100])
         {
             Caption = 'Description';
-            ToolTip = 'Specifies the VAT attribute description.';
+            DataClassification = CustomerContent;
         }
         field(4; "XML Code"; Code[20])
         {
             Caption = 'XML Code';
-            ToolTip = 'Specifies the XML code for VAT statement reporting.';
-        }
-        field(5; "VAT Report Amount Type"; Enum "VAT Report Amount Type CZL")
-        {
-            Caption = 'VAT Return Amount Type';
-            ToolTip = 'Specifies the attribute code value to display amounts in corresponding columns of VAT Return.';
+            DataClassification = CustomerContent;
         }
     }
     keys

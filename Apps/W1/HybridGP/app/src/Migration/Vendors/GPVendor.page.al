@@ -1,4 +1,3 @@
-#if not CLEAN26
 namespace Microsoft.DataMigration.GP;
 
 page 4096 "GP Vendor"
@@ -9,10 +8,6 @@ page 4096 "GP Vendor"
     InsertAllowed = false;
     Caption = 'Vendor Table';
     PromotedActionCategories = 'Related Entities';
-    UsageCategory = None;
-    ObsoleteState = Pending;
-    ObsoleteReason = 'Removing the GP staging table pages because they cause confusion and should not be used.';
-    ObsoleteTag = '26.0';
 
     layout
     {
@@ -130,4 +125,3 @@ page 4096 "GP Vendor"
         }
     }
 }
-#endif

@@ -1,4 +1,3 @@
-#if not CLEANSCHEMA27
 namespace Microsoft.Integration.SyncBase;
 
 table 2400 "Sync Setup"
@@ -61,4 +60,4 @@ table 2400 "Sync Setup"
     end;
 #endif
 }
-#endif
+

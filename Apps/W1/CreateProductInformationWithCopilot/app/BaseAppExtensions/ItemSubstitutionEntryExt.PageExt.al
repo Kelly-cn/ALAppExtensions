@@ -3,7 +3,7 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 // ------------------------------------------------------------------------------------------------
 namespace Microsoft.Inventory.Item.Substitution;
-using System.AI;
+using System.Environment;
 
 pageextension 7330 "Item Substitution Entry Ext." extends "Item Substitution Entry"
 {
@@ -14,11 +14,9 @@ pageextension 7330 "Item Substitution Entry Ext." extends "Item Substitution Ent
             action("Suggest Substitution Prompting")
             {
                 ApplicationArea = All;
-                Caption = 'Suggest with Copilot';
+                Caption = 'Suggest substitutions';
                 Image = SparkleFilled;
                 ToolTip = 'Get item substitution suggestion from Copilot';
-                Enabled = IsCapabilityRegistered;
-                Visible = IsCapabilityRegistered;
 
                 trigger OnAction()
                 begin
@@ -26,17 +24,36 @@ pageextension 7330 "Item Substitution Entry Ext." extends "Item Substitution Ent
                 end;
             }
         }
-    }
+        addlast(processing)
+        {
+            action("Suggest Substitution")
+            {
+                ApplicationArea = All;
+                Caption = 'Suggest substitutions';
+                Image = SparkleFilled;
+                ToolTip = 'Get item substitution suggestion from Copilot';
+                Visible = ProcessingActionVisible;
 
-    var
-        ItemSubstSuggestionImpl: Codeunit "Item Subst. Suggestion Impl.";
-        IsCapabilityRegistered: Boolean;
+                trigger OnAction()
+                begin
+                    ItemSubstSuggestionImpl.GetItemSubstitutionSuggestion(Rec);
+                end;
+            }
+        }
+        addlast(Promoted)
+        {
+            actionref(SuggestSubstitution_Promoted; "Suggest Substitution") { }
+        }
+    }
 
     trigger OnOpenPage()
     var
-        CopilotCapability: Codeunit "Copilot Capability";
+        EnvironmentInformation: Codeunit "Environment Information";
     begin
-        IsCapabilityRegistered := CopilotCapability.IsCapabilityRegistered(Enum::"Copilot Capability"::"Create Product Information");
+        ProcessingActionVisible := not EnvironmentInformation.IsSaaSInfrastructure();
     end;
 
+    var
+        ItemSubstSuggestionImpl: Codeunit "Item Subst. Suggestion Impl.";
+        ProcessingActionVisible: Boolean;
 }

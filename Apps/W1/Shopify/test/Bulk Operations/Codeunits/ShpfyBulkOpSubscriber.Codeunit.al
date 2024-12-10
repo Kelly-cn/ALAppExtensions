@@ -9,6 +9,14 @@ codeunit 139615 "Shpfy Bulk Op. Subscriber"
         BulkOperationRunning: Boolean;
         BulkUploadFail: Boolean;
 
+#if not CLEAN23
+    [EventSubscriber(ObjectType::Codeunit, Codeunit::"Shpfy Bulk Operation Mgt.", 'OnIsBulkOperationFeatureEnabled', '', true, false)]
+    local procedure OnGetAccessToken(var FeatureEnabled: Boolean)
+    begin
+        FeatureEnabled := true;
+    end;
+#endif
+
     [EventSubscriber(ObjectType::Codeunit, Codeunit::"Shpfy Bulk Operation Mgt.", 'OnInvalidUser', '', true, false)]
     local procedure OnInvalidUser(var IsHandled: Boolean)
     begin

@@ -1,4 +1,3 @@
-#if not CLEANSCHEMA27
 namespace Microsoft.Integration.SyncBase;
 
 table 2401 "Sync Change"
@@ -74,4 +73,4 @@ table 2401 "Sync Change"
     {
     }
 }
-#endif
+

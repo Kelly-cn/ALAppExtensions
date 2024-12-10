@@ -1,4 +1,3 @@
-#if not CLEAN26
 namespace Microsoft.DataMigration.GP;
 
 #pragma warning disable AS0109
@@ -7,9 +6,6 @@ table 4031 "GPForecastTemp"
     TableType = Temporary;
     ReplicateData = false;
     Extensible = false;
-    ObsoleteState = Pending;
-    ObsoleteTag = '26.0';
-    ObsoleteReason = 'Forecast functionality is not used in this migration app.';
 
     fields
     {
@@ -49,4 +45,3 @@ table 4031 "GPForecastTemp"
     }
 }
 #pragma warning restore AS0109
-#endif

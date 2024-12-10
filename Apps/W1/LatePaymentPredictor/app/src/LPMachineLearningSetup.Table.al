@@ -6,7 +6,6 @@ using System.Utilities;
 using System.Privacy;
 table 1950 "LP Machine Learning Setup"
 {
-    DataClassification = CustomerContent;
     ReplicateData = false;
     Permissions = TableData "LP Machine Learning Setup" = I;
     fields
@@ -102,6 +101,15 @@ table 1950 "LP Machine Learning Setup"
                 AzureMLConnector.ValidateApiUrl("Custom API Key");
             end;
         }
+
+        field(11; "Exact Invoice No OnLastML"; Integer)
+        {
+            Editable = false;
+            ObsoleteState = Removed;
+            ObsoleteReason = 'Discontinued because of performance refactoring. Use the field Posting Date OnLastML instead.';
+            ObsoleteTag = '18.0';
+        }
+
         field(12; "OverestimatedInvNo OnLastReset"; Integer)
         {
             Editable = false;

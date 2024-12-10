@@ -1,4 +1,3 @@
-#if not CLEANSCHEMA23
 table 1080 "MS - Wallet Merchant Account"
 {
     ObsoleteState = Removed;
@@ -163,4 +162,3 @@ table 1080 "MS - Wallet Merchant Account"
         EXIT(TypeHelper.UriGetAuthority(GetPaymentRequestURL()));
     end;
 }
-#endif

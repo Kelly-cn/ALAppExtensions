@@ -347,7 +347,6 @@ table 31105 "Statutory Reporting Setup CZL"
             Editable = false;
             FieldClass = FlowField;
         }
-#if not CLEANSCHEMA25
         field(160; "Transaction Type Mandatory"; Boolean)
         {
             Caption = 'Transaction Type Mandatory';
@@ -488,7 +487,6 @@ table 31105 "Statutory Reporting Setup CZL"
             ObsoleteTag = '25.0';
             ObsoleteReason = 'Intrastat related functionalities are moved to Intrastat extensions. This field is not used any more.';
         }
-#endif
     }
 
     keys

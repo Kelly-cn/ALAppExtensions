@@ -27,7 +27,7 @@ page 6361 "EDoc Ext Connection Setup Card"
                     ToolTip = 'Specifies the client ID token.';
                     ApplicationArea = Basic, Suite;
                     ExtendedDatatype = Masked;
-                    Visible = not IsSaaSInfrastructure;
+                    Visible = not IsSaaS;
                     ShowMandatory = true;
 
                     trigger OnValidate()
@@ -41,7 +41,7 @@ page 6361 "EDoc Ext Connection Setup Card"
                     ToolTip = 'Specifies the client secret token.';
                     ApplicationArea = Basic, Suite;
                     ExtendedDatatype = Masked;
-                    Visible = not IsSaaSInfrastructure;
+                    Visible = not IsSaaS;
                     ShowMandatory = true;
 
                     trigger OnValidate()
@@ -53,13 +53,13 @@ page 6361 "EDoc Ext Connection Setup Card"
                 {
                     ApplicationArea = Basic, Suite;
                     ToolTip = 'Specifies the URL to connect to Pagero Online.';
-                    Visible = not IsSaaSInfrastructure;
+                    Visible = not IsSaaS;
                 }
                 field("Redirect URL"; Rec."Redirect URL")
                 {
                     ApplicationArea = Basic, Suite;
                     ToolTip = 'Specifies the redirect URL.';
-                    Visible = not IsSaaSInfrastructure;
+                    Visible = not IsSaaS;
                 }
                 field("FileAPI URL"; Rec."FileAPI URL")
                 {
@@ -122,7 +122,7 @@ page 6361 "EDoc Ext Connection Setup Card"
         EnvironmentInfo: Codeunit "Environment Information";
 
     begin
-        IsSaaSInfrastructure := EnvironmentInfo.IsSaaSInfrastructure();
+        IsSaaS := EnvironmentInfo.IsSaaS();
 
         PageroAuth.InitConnectionSetup();
         PageroAuth.IsClientCredsSet(ClientID, ClientSecret);
@@ -142,6 +142,6 @@ page 6361 "EDoc Ext Connection Setup Card"
         FeatureTelemetry: Codeunit "Feature Telemetry";
         [NonDebuggable]
         ClientID, ClientSecret : Text;
-        IsSaaSInfrastructure: Boolean;
+        IsSaaS: Boolean;
         ExternalServiceTok: Label 'ExternalServiceConnector', Locked = true;
 }

@@ -1,4 +1,3 @@
-#if not CLEANSCHEMA25
 namespace Microsoft.Integration.Shopify;
 
 /// <summary>
@@ -77,4 +76,3 @@ table 30108 "Shpfy Province"
         }
     }
 }
-#endif

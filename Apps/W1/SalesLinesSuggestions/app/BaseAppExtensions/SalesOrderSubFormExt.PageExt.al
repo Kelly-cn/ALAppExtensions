@@ -5,7 +5,6 @@
 namespace Microsoft.Sales.Document;
 
 using Microsoft.Sales.Document.Attachment;
-using System.AI;
 
 pageextension 7278 "Sales Order Sub Form Ext" extends "Sales Order Subform"
 {
@@ -19,8 +18,6 @@ pageextension 7278 "Sales Order Sub Form Ext" extends "Sales Order Subform"
                 Caption = 'Suggest sales lines';
                 Image = SparkleFilled;
                 ToolTip = 'Get sales lines suggestions from Copilot';
-                Enabled = IsCapabilityRegistered;
-                Visible = IsCapabilityRegistered;
 
                 trigger OnAction()
                 begin
@@ -34,8 +31,6 @@ pageextension 7278 "Sales Order Sub Form Ext" extends "Sales Order Subform"
                 Ellipsis = true;
                 Image = SparkleFilled;
                 ToolTip = 'Get sales lines from file with Copilot';
-                Enabled = IsCapabilityRegistered;
-                Visible = IsCapabilityRegistered;
 
                 trigger OnAction()
                 begin
@@ -43,17 +38,12 @@ pageextension 7278 "Sales Order Sub Form Ext" extends "Sales Order Subform"
                 end;
             }
         }
-#if not CLEAN25
         addlast(processing)
         {
             group("Copilot")
             {
                 Image = SparkleFilled;
                 ShowAs = SplitButton;
-                Visible = false;
-                ObsoleteReason = 'Replaced by Suggest Sales Line Prompting';
-                ObsoleteState = Pending;
-                ObsoleteTag = '25.0';
 
                 action("Suggest Sales Lines")
                 {
@@ -61,30 +51,30 @@ pageextension 7278 "Sales Order Sub Form Ext" extends "Sales Order Subform"
                     Caption = 'Suggest sales lines';
                     Image = SparkleFilled;
                     ToolTip = 'Get sales lines suggestions from Copilot';
-                    Visible = false;
-                    ObsoleteReason = 'Replaced by Suggest Sales Line Prompting';
-                    ObsoleteState = Pending;
-                    ObsoleteTag = '25.0';
 
                     trigger OnAction()
                     begin
                         SalesLineAISuggestionImp.GetLinesSuggestions(Rec);
                     end;
                 }
+                action(Attach)
+                {
+                    ApplicationArea = All;
+                    Caption = 'Suggest sales lines from file';
+                    Ellipsis = true;
+                    Image = SparkleFilled;
+                    ToolTip = 'Get sales lines from file with Copilot';
+
+                    trigger OnAction()
+                    begin
+                        SalesLineFromAttachment.AttachAndSuggest(Rec);
+                    end;
+                }
             }
         }
-#endif
     }
 
     var
         SalesLineAISuggestionImp: Codeunit "Sales Lines Suggestions Impl.";
         SalesLineFromAttachment: Codeunit "Sales Line From Attachment";
-        IsCapabilityRegistered: Boolean;
-
-    trigger OnOpenPage()
-    var
-        CopilotCapability: Codeunit "Copilot Capability";
-    begin
-        IsCapabilityRegistered := CopilotCapability.IsCapabilityRegistered(Enum::"Copilot Capability"::"Sales Lines Suggestions");
-    end;
 }

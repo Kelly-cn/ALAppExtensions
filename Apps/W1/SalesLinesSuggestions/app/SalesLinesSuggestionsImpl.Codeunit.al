@@ -51,13 +51,7 @@ codeunit 7275 "Sales Lines Suggestions Impl."
         SalesHeaderNotInitializedErr: Label '%1 header is not initialized', Comment = '%1 = Document Type';
         ErrorTxt: Text;
     begin
-        if not SalesHeader.Get(SalesLine."Document Type", SalesLine."Document No.") then begin
-            ErrorTxt := StrSubstNo(SalesHeaderNotInitializedErr, SalesLine."Document Type");
-            FeatureTelemetry.LogError('0000ME6', SalesLineAISuggestionImpl.GetFeatureName(), 'Get the source sales header', ErrorTxt);
-            Error(ErrorTxt);
-        end;
-
-        SalesHeader.TestStatusOpen(true);
+        SalesLine.TestStatusOpen();
         if not AzureOpenAI.IsEnabled(Enum::"Copilot Capability"::"Sales Lines Suggestions") then
             exit;
 
@@ -67,10 +61,16 @@ codeunit 7275 "Sales Lines Suggestions Impl."
         if not ALSearch.IsItemSearchReady() then
             ALSearch.EnableItemSearch();
 
-        SalesLineAISuggestions.SetSalesHeader(SalesHeader);
-        SalesLineAISuggestions.LookupMode := true;
-        FeatureTelemetry.LogUptake('0000MEC', SalesLineAISuggestionImpl.GetFeatureName(), Enum::"Feature Uptake Status"::"Set up", FeatureTelemetryCustomDimension);
-        SalesLineAISuggestions.Run();
+        if SalesHeader.Get(SalesLine."Document Type", SalesLine."Document No.") then begin
+            SalesLineAISuggestions.SetSalesHeader(SalesHeader);
+            SalesLineAISuggestions.LookupMode := true;
+            FeatureTelemetry.LogUptake('0000MEC', SalesLineAISuggestionImpl.GetFeatureName(), Enum::"Feature Uptake Status"::"Set up", FeatureTelemetryCustomDimension);
+            SalesLineAISuggestions.Run();
+        end else begin
+            ErrorTxt := StrSubstNo(SalesHeaderNotInitializedErr, SalesLine."Document Type");
+            FeatureTelemetry.LogError('0000ME6', SalesLineAISuggestionImpl.GetFeatureName(), 'Get the source sales header', ErrorTxt);
+            Error(ErrorTxt);
+        end;
     end;
 
     [NonDebuggable]

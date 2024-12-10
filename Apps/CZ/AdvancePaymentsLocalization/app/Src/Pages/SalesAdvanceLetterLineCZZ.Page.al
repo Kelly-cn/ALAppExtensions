@@ -67,7 +67,7 @@ page 31172 "Sales Advance Letter Line CZZ"
                 field("Amount Including VAT"; Rec."Amount Including VAT")
                 {
                     ApplicationArea = Basic, Suite;
-                    ToolTip = 'Specifies amount including VAT.';
+                    ToolTip = 'Specifie amount including VAT.';
                     BlankZero = true;
 
                     trigger OnValidate()
